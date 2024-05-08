@@ -1,0 +1,21 @@
+/* Style CSS dla strony internetowej */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+#payment-container {
+    text-align: center;
+    margin-top: 50px;
+}
+
+#qr-code {
+    margin-top: 20px;
+}
+
+#invoice {
+    margin-top: 20px;
+    font-size: 18px;
+}
