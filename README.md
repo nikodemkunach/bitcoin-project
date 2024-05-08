@@ -10,11 +10,7 @@ Przed uruchomieniem tej aplikacji upewnij się, że masz zainstalowany Node.js n
 
 1. Sklonuj to repozytorium na swój komputer:
 
-git clone https://github.com/twoja_nazwa_uzytkownika/generator-kodow-qr-opennode.git
-
-
 2. Przejdź do katalogu projektu:
-
 
 3. Zainstaluj zależności za pomocą npm:
 npm install express opennode qrcode
