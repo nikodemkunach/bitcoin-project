@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="05ad5855-7ae7-402f-a15f-1adee1fa887a" name="Changes" comment="2próba programu" />
+    <list default="true" id="05ad5855-7ae7-402f-a15f-1adee1fa887a" name="Changes" comment="3próba programu" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,7 +13,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="1attempt" />
+        <entry key="$PROJECT_DIR$" value="2attempt" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -40,16 +40,20 @@
   &quot;associatedIndex&quot;: 2
 }</component>
   <component name="ProjectId" id="2gBJuBnx9Bu6SLtKWk39j7y7Hfv" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "2attempt",
+    "git-widget-placeholder": "3attempt",
     "last_opened_file_path": "C:/Users/nikod/IdeaProjects/bitcoin-project",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -87,7 +91,7 @@
       <workItem from="1715168464951" duration="56000" />
       <workItem from="1715168527936" duration="119000" />
       <workItem from="1715168687226" duration="109000" />
-      <workItem from="1715184488477" duration="391000" />
+      <workItem from="1715184488477" duration="738000" />
     </task>
     <task id="LOCAL-00001" summary="1próba programu">
       <option name="closed" value="true" />
@@ -121,16 +125,34 @@
       <option name="project" value="LOCAL" />
       <updated>1715184552036</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="3próba programu">
+      <option name="closed" value="true" />
+      <created>1715184965401</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1715184965401</updated>
+    </task>
+    <task id="LOCAL-00006" summary="3próba programu">
+      <option name="closed" value="true" />
+      <created>1715185245832</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1715185245832</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Initial commit" />
     <MESSAGE value="1próba programu" />
     <MESSAGE value="2próba programu" />
-    <option name="LAST_COMMIT_MESSAGE" value="2próba programu" />
+    <MESSAGE value="3próba programu" />
+    <option name="LAST_COMMIT_MESSAGE" value="3próba programu" />
   </component>
 </project>
