@@ -13,8 +13,9 @@ Przed uruchomieniem tej aplikacji upewnij się, że masz zainstalowany Node.js n
 2. Przejdź do katalogu projektu:
 
 3. Zainstaluj zależności za pomocą npm:
+```javascript
 npm install express opennode qrcode
-
+```
 
 ## Konfiguracja
 
@@ -22,10 +23,11 @@ Musisz skonfigurować swoje dane uwierzytelniające API OpenNode w pliku `server
 
 ```javascript
 opennode.setCredentials('TWÓJ_KLUCZ_API', 'ŚRODOWISKO');
+```
 
 Użycie
 Aby uruchomić serwer, wykonaj następującą komendę:
-
+```javascript
 node server.js
-
+```
 Gdy serwer jest uruchomiony, otwórz przeglądarkę internetową i przejdź pod adres http://localhost:3000, aby zobaczyć kod QR płatności i URL hostowanego formularza płatności.
