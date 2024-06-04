@@ -71,7 +71,8 @@ app.get('/', (req, res) => {
         </head>
         <body>
             <div class="container">
-                <h1>Enter Amount to Donate</h1>
+                <h1>Przekaż datek na studentów</h1>
+                <h4>Podaj kwote:</h4>
                 <form action="/generate-qr" method="post">
                     <input type="number" name="amount" step="0.01" min="0" required>
                     <button type="submit">Generate QR Code</button>
@@ -157,8 +158,8 @@ app.post('/generate-qr', async (req, res) => {
             <body>
                 <div class="container">
                     <h2>Daj BTC biednym studenciakom</h2>
-                    <h1>Scan QR Code to Make Payment</h1>
-                    <h3>Amount to Pay: ${amount} ${charge.currency}</h3>
+                    <h1>Zeskanuj kod QR i przekaż datek</h1>
+                    <h3>Kwota do przekazania: ${amount} ${charge.currency}</h3>
                     <img src="${qrCodeDataURL}" alt="QR Code">
                     <div class="checkout-url">
                         <p>Hosted Checkout URL:</p>
