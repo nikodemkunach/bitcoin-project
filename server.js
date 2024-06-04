@@ -1,14 +1,17 @@
 const express = require('express');
 const opennode = require('opennode');
 const QRCode = require('qrcode');
+const bodyParser = require('body-parser');
 
 opennode.setCredentials('b4a59296-10a3-433b-ae0b-0a958a3c109e', 'dev');
 
 const app = express();
 const PORT = 3000;
 
-const charge = {
-    "amount": "0.01",
+// Middleware do parsowania ciała żądań POST
+app.use(bodyParser.urlencoded({ extended: true }));
+
+const chargeTemplate = {
     "description": "płatność za usługę",
     "currency": "PLN",
     "customer_email": "sample@sample.com",
@@ -21,8 +24,69 @@ const charge = {
     "ttl": 10
 };
 
-app.get('/', async (req, res) => {
+app.get('/', (req, res) => {
+    res.send(`
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Enter Amount</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    background-color: #f0f0f0;
+                    margin: 0;
+                    padding: 0;
+                }
+                .container {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    height: 100vh;
+                }
+                h1 {
+                    color: #333;
+                    margin-bottom: 20px;
+                }
+                input {
+                    padding: 10px;
+                    font-size: 16px;
+                    margin-bottom: 20px;
+                    border: 2px solid #333;
+                    border-radius: 8px;
+                    width: 200px;
+                }
+                button {
+                    padding: 10px 20px;
+                    font-size: 16px;
+                    color: #fff;
+                    background-color: #007bff;
+                    border: none;
+                    border-radius: 8px;
+                    cursor: pointer;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <h1>Enter Amount to Donate</h1>
+                <form action="/generate-qr" method="post">
+                    <input type="number" name="amount" step="0.01" min="0" required>
+                    <button type="submit">Generate QR Code</button>
+                </form>
+            </div>
+        </body>
+        </html>
+    `);
+});
+
+app.post('/generate-qr', async (req, res) => {
     try {
+        const amount = req.body.amount;
+        const charge = { ...chargeTemplate, amount };
+
         const chargeResponse = await opennode.createCharge(charge);
         const payreq = chargeResponse.lightning_invoice.payreq;
         const hostedCheckoutURL = chargeResponse.hosted_checkout_url;
@@ -94,7 +158,7 @@ app.get('/', async (req, res) => {
                 <div class="container">
                     <h2>Daj BTC biednym studenciakom</h2>
                     <h1>Scan QR Code to Make Payment</h1>
-                    <h3>Amount to Pay: ${charge.amount} ${charge.currency}</h3>
+                    <h3>Amount to Pay: ${amount} ${charge.currency}</h3>
                     <img src="${qrCodeDataURL}" alt="QR Code">
                     <div class="checkout-url">
                         <p>Hosted Checkout URL:</p>
