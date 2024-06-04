@@ -28,6 +28,7 @@ app.get('/', async (req, res) => {
         const hostedCheckoutURL = chargeResponse.hosted_checkout_url;
         const qrCodeDataURL = await QRCode.toDataURL(payreq);
 
+        // Logowanie informacji do konsoli
         console.log("Charge Response:", chargeResponse);
         console.log("Payment Request:", payreq);
         console.log("Hosted Checkout URL:", hostedCheckoutURL);
@@ -53,13 +54,16 @@ app.get('/', async (req, res) => {
                         align-items: center;
                         height: 100vh;
                     }
-                    h1, h2 {
+                    h1, h2, h3 {
                         color: #333;
                     }
                     h2 {
                         margin-bottom: 10px;
                     }
                     h1 {
+                        margin-bottom: 10px;
+                    }
+                    h3 {
                         margin-bottom: 20px;
                     }
                     img {
@@ -90,6 +94,7 @@ app.get('/', async (req, res) => {
                 <div class="container">
                     <h2>Daj BTC biednym studenciakom</h2>
                     <h1>Scan QR Code to Make Payment</h1>
+                    <h3>Amount to Pay: ${charge.amount} ${charge.currency}</h3>
                     <img src="${qrCodeDataURL}" alt="QR Code">
                     <div class="checkout-url">
                         <p>Hosted Checkout URL:</p>
