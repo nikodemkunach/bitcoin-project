@@ -19,7 +19,7 @@ const chargeTemplate = {
     "customer_name": "nakamoto",
     "order_id": "21",
     "callback_url": "https://yourwebhook.com",
-    "success_url": "https://yoursuccessurl.com",
+    "success_url": "http://localhost:3000/success",
     "auto_settle": false,
     "ttl": 10
 };
@@ -120,14 +120,9 @@ app.post('/generate-qr', async (req, res) => {
 
         const chargeResponse = await opennode.createCharge(charge);
         const payreq = chargeResponse.lightning_invoice.payreq;
-        const hostedCheckoutURL = chargeResponse.hosted_checkout_url;
         const qrCodeDataURL = await QRCode.toDataURL(payreq);
 
-        // Logowanie informacji do konsoli
-        console.log("Charge Response:", chargeResponse);
-        console.log("Payment Request:", payreq);
-        console.log("Hosted Checkout URL:", hostedCheckoutURL);
-
+        // Renderowanie strony z kodem QR
         res.send(`
             <!DOCTYPE html>
             <html lang="en">
@@ -168,21 +163,6 @@ app.post('/generate-qr', async (req, res) => {
                         border-radius: 8px;
                         margin-bottom: 20px;
                     }
-                    .checkout-url {
-                        background-color: #fff;
-                        padding: 10px;
-                        border-radius: 8px;
-                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                    }
-                    .checkout-url p {
-                        margin: 0;
-                        color: #333;
-                    }
-                    .checkout-url a {
-                        color: #007bff;
-                        text-decoration: none;
-                        word-break: break-all;
-                    }
                 </style>
             </head>
             <body>
@@ -191,10 +171,6 @@ app.post('/generate-qr', async (req, res) => {
                     <h1>Zeskanuj kod QR i przekaż datek</h1>
                     <h3>Kwota do przekazania: ${amount} ${currency}</h3>
                     <img src="${qrCodeDataURL}" alt="QR Code">
-                    <div class="checkout-url">
-                        <p>Hosted Checkout URL:</p>
-                        <a href="${hostedCheckoutURL}" target="_blank">${hostedCheckoutURL}</a>
-                    </div>
                 </div>
             </body>
             </html>
@@ -203,6 +179,50 @@ app.post('/generate-qr', async (req, res) => {
         console.error("Error:", error);
         res.status(500).send(`${error.status} | ${error.message}`);
     }
+});
+
+app.get('/success', (req, res) => {
+    res.send(`
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <titlePayment Success</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    background-color: #f0f0f0;
+                    margin: 0;
+                    padding: 0;
+                }
+                .container {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    height: 100vh;
+                }
+                h1 {
+                    color: #333;
+                    margin-bottom: 20px;
+                }
+                p {
+                    color: #333;
+                    font-size: 18px;
+                    text-align: center;
+                    max-width: 600px;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <h1>Płatność zakończona sukcesem!</h1>
+                <p>Dziękujemy za Twoją płatność. Środki zostały pomyślnie przekazane na rzecz biednych studentów. Możesz zamknąć tę stronę.</p>
+            </div>
+        </body>
+        </html>
+    `);
 });
 
 app.listen(PORT, () => {
