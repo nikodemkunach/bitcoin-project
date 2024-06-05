@@ -1,6 +1,5 @@
 const express = require('express');
 const opennode = require('opennode');
-const QRCode = require('qrcode');
 const bodyParser = require('body-parser');
 
 opennode.setCredentials('4c60af75-4eb0-4a44-bb12-d158daa42743', 'live');
@@ -18,7 +17,7 @@ const chargeTemplate = {
     "notif_email": "sample@sample.com",
     "customer_name": "nakamoto",
     "order_id": "21",
-    "callback_url": "https://yourwebhook.com",
+    "callback_url": "http://localhost:3000/success",
     "success_url": "http://localhost:3000/success",
     "auto_settle": false,
     "ttl": 10
@@ -80,7 +79,7 @@ app.get('/', (req, res) => {
         <body>
             <div class="container">
                 <h1>Przekaż datek na studentów</h1>
-                <form action="/generate-qr" method="post">
+                <form action="/generate-checkout" method="post">
                     <label for="description">Opis:</label>
                     <input type="text" id="description" name="description" required>
                     <label for="email">Email:</label>
@@ -97,7 +96,7 @@ app.get('/', (req, res) => {
                     </select>
                     <label for="amount">Kwota:</label>
                     <input type="number" id="amount" name="amount" step="0.01" min="0" required>
-                    <button type="submit">Generate QR Code</button>
+                    <button type="submit">Przejdź do płatności</button>
                 </form>
             </div>
         </body>
@@ -105,7 +104,7 @@ app.get('/', (req, res) => {
     `);
 });
 
-app.post('/generate-qr', async (req, res) => {
+app.post('/generate-checkout', async (req, res) => {
     try {
         const { description, email, notif_email, name, currency, amount } = req.body;
         const charge = {
@@ -119,62 +118,14 @@ app.post('/generate-qr', async (req, res) => {
         };
 
         const chargeResponse = await opennode.createCharge(charge);
-        const payreq = chargeResponse.lightning_invoice.payreq;
-        const qrCodeDataURL = await QRCode.toDataURL(payreq);
+        const hostedCheckoutURL = chargeResponse.hosted_checkout_url;
 
-        // Renderowanie strony z kodem QR
-        res.send(`
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Payment QR Code</title>
-                <style>
-                    body {
-                        font-family: Arial, sans-serif;
-                        background-color: #f0f0f0;
-                        margin: 0;
-                        padding: 0;
-                    }
-                    .container {
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: center;
-                        align-items: center;
-                        height: 100vh;
-                    }
-                    h1, h2, h3 {
-                        color: #333;
-                    }
-                    h2 {
-                        margin-bottom: 10px;
-                    }
-                    h1 {
-                        margin-bottom: 10px;
-                    }
-                    h3 {
-                        margin-bottom: 20px;
-                    }
-                    img {
-                        max-width: 80%;
-                        height: auto;
-                        border: 2px solid #333;
-                        border-radius: 8px;
-                        margin-bottom: 20px;
-                    }
-                </style>
-            </head>
-            <body>
-                <div class="container">
-                    <h2>Daj BTC biednym studenciakom</h2>
-                    <h1>Zeskanuj kod QR i przekaż datek</h1>
-                    <h3>Kwota do przekazania: ${amount} ${currency}</h3>
-                    <img src="${qrCodeDataURL}" alt="QR Code">
-                </div>
-            </body>
-            </html>
-        `);
+        // Logowanie informacji do konsoli
+        console.log("Charge Response:", chargeResponse);
+        console.log("Hosted Checkout URL:", hostedCheckoutURL);
+
+        // Przekierowanie do strony płatności
+        res.redirect(hostedCheckoutURL);
     } catch (error) {
         console.error("Error:", error);
         res.status(500).send(`${error.status} | ${error.message}`);
@@ -188,7 +139,7 @@ app.get('/success', (req, res) => {
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <titlePayment Success</title>
+            <title>Payment Success</title>
             <style>
                 body {
                     font-family: Arial, sans-serif;
