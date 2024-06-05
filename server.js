@@ -3,7 +3,7 @@ const opennode = require('opennode');
 const QRCode = require('qrcode');
 const bodyParser = require('body-parser');
 
-opennode.setCredentials('b4a59296-10a3-433b-ae0b-0a958a3c109e', 'dev');
+opennode.setCredentials('4c60af75-4eb0-4a44-bb12-d158daa42743', 'live');
 
 const app = express();
 const PORT = 3000;
@@ -31,7 +31,7 @@ app.get('/', (req, res) => {
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Enter Amount</title>
+            <title>Enter Details</title>
             <style>
                 body {
                     font-family: Arial, sans-serif;
@@ -50,13 +50,21 @@ app.get('/', (req, res) => {
                     color: #333;
                     margin-bottom: 20px;
                 }
-                input {
+                form {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                }
+                label {
+                    margin-bottom: 5px;
+                }
+                input, select {
                     padding: 10px;
                     font-size: 16px;
                     margin-bottom: 20px;
                     border: 2px solid #333;
                     border-radius: 8px;
-                    width: 200px;
+                    width: 300px;
                 }
                 button {
                     padding: 10px 20px;
@@ -72,9 +80,23 @@ app.get('/', (req, res) => {
         <body>
             <div class="container">
                 <h1>Przekaż datek na studentów</h1>
-                <h4>Podaj kwote:</h4>
                 <form action="/generate-qr" method="post">
-                    <input type="number" name="amount" step="0.01" min="0" required>
+                    <label for="description">Opis:</label>
+                    <input type="text" id="description" name="description" required>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                    <label for="notif_email">Email do powiadomień:</label>
+                    <input type="email" id="notif_email" name="notif_email" required>
+                    <label for="name">Imię i Nazwisko:</label>
+                    <input type="text" id="name" name="name" required>
+                    <label for="currency">Waluta:</label>
+                    <select id="currency" name="currency" required>
+                        <option value="PLN">PLN</option>
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                    </select>
+                    <label for="amount">Kwota:</label>
+                    <input type="number" id="amount" name="amount" step="0.01" min="0" required>
                     <button type="submit">Generate QR Code</button>
                 </form>
             </div>
@@ -85,8 +107,16 @@ app.get('/', (req, res) => {
 
 app.post('/generate-qr', async (req, res) => {
     try {
-        const amount = req.body.amount;
-        const charge = { ...chargeTemplate, amount };
+        const { description, email, notif_email, name, currency, amount } = req.body;
+        const charge = {
+            ...chargeTemplate,
+            amount,
+            currency,
+            customer_email: email,
+            customer_name: name,
+            notif_email: notif_email,
+            description: description
+        };
 
         const chargeResponse = await opennode.createCharge(charge);
         const payreq = chargeResponse.lightning_invoice.payreq;
@@ -159,7 +189,7 @@ app.post('/generate-qr', async (req, res) => {
                 <div class="container">
                     <h2>Daj BTC biednym studenciakom</h2>
                     <h1>Zeskanuj kod QR i przekaż datek</h1>
-                    <h3>Kwota do przekazania: ${amount} ${charge.currency}</h3>
+                    <h3>Kwota do przekazania: ${amount} ${currency}</h3>
                     <img src="${qrCodeDataURL}" alt="QR Code">
                     <div class="checkout-url">
                         <p>Hosted Checkout URL:</p>
