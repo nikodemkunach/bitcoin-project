@@ -2,7 +2,7 @@ const express = require('express');
 const opennode = require('opennode');
 const bodyParser = require('body-parser');
 
-opennode.setCredentials('4c60af75-4eb0-4a44-bb12-d158daa42743', 'live');
+opennode.setCredentials('TWÓJ-API-KEY', 'ŚRODOWISKO');
 
 const app = express();
 const PORT = 3000;
