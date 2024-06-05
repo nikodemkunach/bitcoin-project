@@ -14,7 +14,7 @@ Przed uruchomieniem tej aplikacji upewnij się, że masz zainstalowany Node.js n
 
 3. Zainstaluj zależności za pomocą npm:
 ```javascript
-npm install express opennode qrcode
+npm install express opennode qrcode body-parser
 ```
 
 ## Konfiguracja
