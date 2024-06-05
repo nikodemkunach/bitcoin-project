@@ -1,4 +1,4 @@
-# Generator Kodów QR Płatności OpenNode
+# Generator Kodów QR Płatności OpenNode Lightning
 
 To jest program w Node.js, który generuje kod QR płatności za pomocą API OpenNode i wyświetla go na stronie internetowej razem z URL hostowanego formularza płatności.
 
